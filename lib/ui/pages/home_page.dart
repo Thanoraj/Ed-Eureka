@@ -91,6 +91,25 @@ class _HomePageState extends State<HomePage> {
     getInfo();
     canRefresh = widget.forcedRefresh;
     UserManagement.checkUser(context);
+    removeData();
+  }
+
+  removeData() async {
+    await FirebaseFirestore.instance
+        .collection("User")
+        .where("subscriptionList", isEqualTo: ["Ed-Eureka"])
+        .get()
+        .then((value) async {
+          value.docs.forEach((element) async {
+            print(element['userName']);
+            await FirebaseFirestore.instance
+                .collection("User")
+                .doc(element['uid'])
+                .update({"subscriptionList": []});
+          });
+        });
+
+    print("done");
   }
 
   getInfo() async {

@@ -118,8 +118,10 @@ class _WebViewExampleState extends State<WebViewExample> {
               color: Colors.black45,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-            )),
-      ]),
+            ),
+        ),
+      ],
+      ),
     );
   }
 

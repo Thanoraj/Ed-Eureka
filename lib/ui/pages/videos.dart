@@ -56,8 +56,10 @@ class _VideosPageState extends State<VideosPage> {
       userInfo = value['userInfo'];
       subscriptionList = value['subscriptionList'];
     }).catchError((e) {
+      print(e);
       subscriptionList = subscriptionList;
     });
+    print(subjectList);
     videoDetailList = [];
     int j = 0;
     for (int i = 0; i < subjectList.length; i++) {
@@ -87,9 +89,13 @@ class _VideosPageState extends State<VideosPage> {
             }
           }
         });
-      }).catchError((e) {});
+      }).catchError((e) {
+        print(e);
+      });
     }
+    //print(videoDetailList);
     subscriptionVideos = [];
+    print(subscriptionList);
     for (Map subscription in subscriptionList) {
       await _firestore
           .collection('Videos')
@@ -114,9 +120,12 @@ class _VideosPageState extends State<VideosPage> {
             subscriptionVideos[j].add(details);
           }
         });
-      }).catchError((e) {});
+      }).catchError((e) {
+        print(e);
+      });
       j++;
     }
+    print(videoDetailList);
     return videoDetailList;
   }
 
@@ -237,6 +246,9 @@ class _VideosPageState extends State<VideosPage> {
     return FutureBuilder(
       future: videoListGenerator(),
       builder: (context, AsyncSnapshot snapshot) {
+        print(snapshot.hasData &&
+            snapshot.connectionState == ConnectionState.done);
+        print(snapshot.connectionState);
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData) {
           return Material(

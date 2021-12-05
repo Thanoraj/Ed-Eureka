@@ -27,6 +27,24 @@ class _UpdateState extends State<Update> {
     //screenShots();
     super.initState();
     //addSubtopic();
+    removeData();
+  }
+
+  removeData() async {
+    await FirebaseFirestore.instance
+        .collection("User")
+        .where("subscriptionList", isEqualTo: ["Ed-Eureka"])
+        .get()
+        .then((value) async {
+          value.docs.forEach((element) async {
+            await FirebaseFirestore.instance
+                .collection("User")
+                .doc(element['uid'])
+                .update({"subscriptionList": []});
+          });
+        });
+
+    print("done");
   }
 
   // addSubtopic() async {
